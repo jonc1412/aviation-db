@@ -1,15 +1,21 @@
 CREATE TABLE fact_passenger_flight (
-    usg_apt_id INT,
-    fg_apt_id INT,
-    airline_id INT,
-    type VARCHAR(25),
+    flight_date DATE,
+    usg_apt_iata VARCHAR(10) NOT NULL,
+    fg_apt_iata VARCHAR(10) NOT NULL,
+    flight_type VARCHAR(20),
     scheduled INT,
     charter INT,
-    total INT,
-    data_date DATE
-);
+    total INT
+)
+SORTKEY (flight_date, usg_apt_iata, fg_apt_iata);
 
 CREATE TABLE dim_airport (
-    airport_key INT IDENTITY(1,1) PRIMARY KEY,
-    
+    iata VARCHAR(3) UNIQUE NOT NULL,
+    airport_name VARCHAR(255),
+    country_code VARCHAR(3),
+    region_name VARCHAR(255),
+    latitude DECIMAL(9,6),
+    longitude DECIMAL(9,6)
 )
+DISTKEY (airport_key)
+SORTKEY (country_code, iata);
